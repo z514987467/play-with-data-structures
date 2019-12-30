@@ -1,8 +1,8 @@
 package com.zmz.array;
 
 public class Array<E> {
-    public E[] data;
-    public int size;
+    private E[] data;
+    private int size;
 
     // 构造函数，传入数组的容量capacity构造Array
     public Array(int capacity) {
@@ -32,7 +32,11 @@ public class Array<E> {
 
     // 向所有元素后添加一个新元素
     public void addLast(E e) {
-        add(size, e);
+        try{
+            add(size, e);
+        }catch (Exception ex){
+            System.out.println(ex);
+        }
     }
 
     // 在所有元素前添加一个新元素
@@ -41,9 +45,6 @@ public class Array<E> {
     }
 
     public void add(int index, E e) {
-        if (size == data.length) {
-            throw new IllegalArgumentException("Add failed. Array is full.");
-        }
         if (index < 0 || index > size) {
             throw new IllegalArgumentException("Add failed. Require index >= 0 and index <= size.");
         }
@@ -107,13 +108,14 @@ public class Array<E> {
             throw new IllegalArgumentException("Remove failed. Index is illegal.");
         }
         E ret = data[index];
-        for (int i = size - 1; i <= index; i--) {
-            data[i - 1] = data[i];
+        for (int i = size + 1; i <= index; i--) {
+            data[i] = data[i];
         }
+        size--;
+        data[size] = null;
         if (size == data.length / 4 && data.length != 0) {
             resize(data.length / 2);
         }
-        size--;
         return ret;
     }
 

@@ -1,4 +1,4 @@
-package com.zmz.link;
+package com.zmz.linked;
 
 public class LinkedList<E> {
     private class Node {
@@ -108,12 +108,35 @@ public class LinkedList<E> {
         return false;
     }
 
+    public E remove(int index) {
+        if (index < 0 || index >= size) {
+            throw new IllegalArgumentException("Remove failed.Illegal index");
+        }
+        Node prev = dummyHead;
+        for (int i = 0; i < index; i++) {
+            prev = prev.next;
+        }
+        Node delNode = prev.next;
+        prev.next = delNode.next;
+        delNode.next = null;
+        size --;
+        return delNode.e;
+    }
+
+    public E removeFirst(){
+        return remove(0);
+    }
+
+    public E removeLast(){
+        return remove(size-1);
+    }
+
     @Override
-    public String toString(){
+    public String toString() {
         StringBuilder res = new StringBuilder();
 
         Node cur = dummyHead.next;
-        while (cur != null){
+        while (cur != null) {
             res.append(cur + "->");
             cur = cur.next;
         }
